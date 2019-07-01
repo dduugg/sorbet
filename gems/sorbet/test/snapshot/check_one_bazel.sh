@@ -65,8 +65,6 @@ source "gems/sorbet/test/snapshot/logging.sh"
 
 test_dir="${repo_root}/gems/sorbet/test/snapshot/$2"
 
-actual="${test_dir}/actual"
-
 srb="${repo_root}/gems/sorbet/bin/srb"
 
 # Use the sorbet executable built by bazel
@@ -79,47 +77,12 @@ XDG_CACHE_HOME="${test_dir}/cache"
 export XDG_CACHE_HOME
 
 
-# ----- Build the test sandbox -----
-
-cp -r "${test_dir}/src" "$actual"
-
-
-# ----- Run the test -----
-
-(
-  cd $actual
-
-  # Setup the vendor/cache directory to include all gems required for any test
-  mkdir vendor
-  ln -s "$GEMS_LOC" "vendor/cache"
-
-  echo $(bundle exec which ruby)
-
-  # https://bundler.io/v2.0/man/bundle-install.1.html#DEPLOYMENT-MODE
-  # Passing --local to never consult rubygems.org
-  bundle install --deployment --local
-
-  bundle check
-
-  # Uses /dev/null for stdin so any binding.pry would exit immediately
-  # (otherwise, pry will be waiting for input, but it's impossible to tell
-  # because the pry output is hiding in the *.log files)
-  #
-  # note: redirects stderr before the pipe
-  if ! SRB_YES=1 bundle exec "$srb" init < /dev/null 2> "err.log" > "out.log"; then
-    error "├─ srb init failed."
-    error "├─ stdout (out.log):"
-    cat "out.log"
-    error "├─ stderr (err.log):"
-    cat "err.log"
-    error "└─ (end stderr)"
-    exit 1
-  fi
-
-)
-
 (
   cd $test_dir
+
+  echo "output"
+  ls
+  echo "output"
 
   # ----- Check out.log -----
 
