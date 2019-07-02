@@ -33,7 +33,7 @@ module T::Private::Methods
     db = DeclarationBlock.new(mod, loc, blk)
     T::Private::DeclState.current.active_declaration = db
 
-    nil
+    db
   end
 
   def self.start_proc

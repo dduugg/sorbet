@@ -11,14 +11,24 @@ module T::Sig
 
     # At runtime, does nothing, but statically it is treated exactly the same
     # as T::Sig#sig. Only use it in cases where you can't use T::Sig#sig.
-    T::Sig::WithoutRuntime.sig {params(blk: T.proc.bind(T::Private::Methods::DeclBuilder).void).void}
+    T::Sig::WithoutRuntime.sig do
+      params(
+        blk: T.proc.bind(T::Private::Methods::DeclBuilder).void
+      )
+      .returns(T::Private::Methods::DeclarationBlock)
+    end
     def self.sig(&blk); end # rubocop:disable PrisonGuard/BanBuiltinMethodOverride, Lint/DuplicateMethods
   end
 
   # Declares a method with type signatures and/or
   # abstract/override/... helpers. See the documentation URL on
   # {T::Helpers}
-  T::Sig::WithoutRuntime.sig {params(blk: T.proc.bind(T::Private::Methods::DeclBuilder).void).void}
+  T::Sig::WithoutRuntime.sig do
+    params(
+      blk: T.proc.bind(T::Private::Methods::DeclBuilder).void
+    )
+    .returns(T::Private::Methods::DeclarationBlock)
+  end
   def sig(&blk) # rubocop:disable PrisonGuard/BanBuiltinMethodOverride
     T::Private::Methods.declare_sig(self, &blk)
   end
