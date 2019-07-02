@@ -121,7 +121,7 @@ module T::Private::Methods
     mod = is_singleton_method ? hook_mod.singleton_class : hook_mod
     original_method = mod.instance_method(method_name)
 
-    return if !current_declaration
+    return if current_declaration.nil?
     T::Private::DeclState.current.reset!
 
     sig_block = lambda do
