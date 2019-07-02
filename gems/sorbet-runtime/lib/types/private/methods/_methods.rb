@@ -170,7 +170,8 @@ module T::Private::Methods
     end
 
     new_method = mod.instance_method(method_name)
-    @sig_wrappers[method_to_key(new_method)] = sig_block
+    key = method_to_key(new_method)
+    @sig_wrappers[key] = sig_block
   end
 
   def self.sig_error(loc, message)
