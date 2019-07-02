@@ -6,6 +6,11 @@ module T::Private::Methods
   @signatures_by_method = {}
   @sig_wrappers = {}
   @sigs_that_raised = {}
+  # the info about whether a method is final is not stored in a DeclBuilder nor a Signature, but instead right here.
+  # this is because final checks are special:
+  # - they are done possibly before any sig block has run.
+  # - they are done even if the method being defined doesn't have a sig.
+  @final_methods = Set.new
 
   ARG_NOT_PROVIDED = Object.new
   PROC_TYPE = Object.new
@@ -17,6 +22,15 @@ module T::Private::Methods
       @mod = mod
       @loc = loc
       @blk = blk
+      @final = false
+    end
+
+    def final
+      @final = true
+    end
+
+    def final?
+      @final
     end
   end
 
@@ -121,6 +135,26 @@ module T::Private::Methods
     mod = is_singleton_method ? hook_mod.singleton_class : hook_mod
     original_method = mod.instance_method(method_name)
 
+    if !current_declaration.nil? && current_declaration.final?
+      if !mod.is_a?(Class)
+        raise "`#{mod.name}` is not a class and its method `#{method_name}` cannot be declared as final"
+      end
+      # use hook_mod and not mod here, because we don't bother marking the singleton class of a final class as final.
+      if T::Private::Final.final_class?(hook_mod)
+        raise "`#{mod.name}` was declared as final and its method `#{method_name}` cannot also be declared as final"
+      end
+    end
+    if final_method?(original_method)
+      raise "`#{mod.name}##{method_name}` was declared as final and cannot be redefined"
+    end
+    mod.ancestors.each do |a|
+      (a.instance_methods(false) + a.private_instance_methods(false)).each do |m|
+        if m == method_name && final_method?(a.instance_method(method_name))
+          raise "`#{a.name}##{method_name}` was declared as final and cannot be overridden in `#{mod.name}`"
+        end
+      end
+    end
+
     return if current_declaration.nil?
     T::Private::DeclState.current.reset!
 
@@ -172,6 +206,9 @@ module T::Private::Methods
     new_method = mod.instance_method(method_name)
     key = method_to_key(new_method)
     @sig_wrappers[key] = sig_block
+    if current_declaration.final?
+      @final_methods.add(key)
+    end
   end
 
   def self.sig_error(loc, message)
@@ -260,6 +297,10 @@ module T::Private::Methods
 
   def self.has_sig_block_for_method(method)
     has_sig_block_for_key(method_to_key(method))
+  end
+
+  private_class_method def self.final_method?(method)
+    @final_methods.include?(method_to_key(method))
   end
 
   private_class_method def self.has_sig_block_for_key(key)
