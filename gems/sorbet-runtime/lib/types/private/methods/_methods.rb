@@ -10,7 +10,15 @@ module T::Private::Methods
   ARG_NOT_PROVIDED = Object.new
   PROC_TYPE = Object.new
 
-  DeclarationBlock = Struct.new(:mod, :loc, :blk)
+  class DeclarationBlock
+    attr_accessor :mod, :loc, :blk
+
+    def initialize(mod, loc, blk)
+      @mod = mod
+      @loc = loc
+      @blk = blk
+    end
+  end
 
   def self.declare_sig(mod, &blk)
     install_hooks(mod)
