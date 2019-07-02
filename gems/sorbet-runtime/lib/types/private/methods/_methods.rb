@@ -22,7 +22,8 @@ module T::Private::Methods
 
     loc = caller_locations(2, 1).first
 
-    T::Private::DeclState.current.active_declaration = DeclarationBlock.new(mod, loc, blk)
+    db = DeclarationBlock.new(mod, loc, blk)
+    T::Private::DeclState.current.active_declaration = db
 
     nil
   end
