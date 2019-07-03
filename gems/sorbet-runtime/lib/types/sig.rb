@@ -8,7 +8,7 @@ module T::Sig
     # At runtime, does nothing, but statically it is treated exactly the same
     # as T::Sig#sig. Only use it in cases where you can't use T::Sig#sig.
     def self.sig(&blk) # rubocop:disable PrisonGuard/BanBuiltinMethodOverride
-      T::Private::Methods::DeclarationBlock.new
+      T::Private::Methods::DeclarationBlock.new(T.unsafe(nil), T.unsafe(nil), T.unsafe(nil))
     end
 
     # At runtime, does nothing, but statically it is treated exactly the same
@@ -20,7 +20,7 @@ module T::Sig
       .returns(T::Private::Methods::DeclarationBlock)
     end
     def self.sig(&blk) # rubocop:disable PrisonGuard/BanBuiltinMethodOverride, Lint/DuplicateMethods
-      T::Private::Methods::DeclarationBlock.new
+      T::Private::Methods::DeclarationBlock.new(T.unsafe(nil), T.unsafe(nil), T.unsafe(nil))
     end
   end
 
