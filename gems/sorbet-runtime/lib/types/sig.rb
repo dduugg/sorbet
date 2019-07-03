@@ -7,7 +7,9 @@ module T::Sig
   module WithoutRuntime
     # At runtime, does nothing, but statically it is treated exactly the same
     # as T::Sig#sig. Only use it in cases where you can't use T::Sig#sig.
-    def self.sig(&blk); end # rubocop:disable PrisonGuard/BanBuiltinMethodOverride
+    def self.sig(&blk) # rubocop:disable PrisonGuard/BanBuiltinMethodOverride
+      T::Private::Methods::DeclarationBlock.new
+    end
 
     # At runtime, does nothing, but statically it is treated exactly the same
     # as T::Sig#sig. Only use it in cases where you can't use T::Sig#sig.
@@ -17,7 +19,9 @@ module T::Sig
       )
       .returns(T::Private::Methods::DeclarationBlock)
     end
-    def self.sig(&blk); end # rubocop:disable PrisonGuard/BanBuiltinMethodOverride, Lint/DuplicateMethods
+    def self.sig(&blk) # rubocop:disable PrisonGuard/BanBuiltinMethodOverride, Lint/DuplicateMethods
+      T::Private::Methods::DeclarationBlock.new
+    end
   end
 
   # Declares a method with type signatures and/or
