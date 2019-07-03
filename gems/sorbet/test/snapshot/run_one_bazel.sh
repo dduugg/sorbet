@@ -105,11 +105,12 @@ cp -r "${test_dir}/src" "$actual"
     exit 1
   fi
 
-
-  # https://bundler.io/v2.0/man/bundle-install.1.html#DEPLOYMENT-MODE
+  # Configuring output to vendor/bundle
   # Passing --local to never consult rubygems.org
+  # Passing --no-prune to not delete unused gems in vendor/cache
   info "├─ Installing dependencies to vendor/bundle"
-  bundle install --deployment --local
+  bundle config --local path vendor/bundle
+  bundle install --local --no-prune
 
   info "├─ Checking installation"
   bundle check
@@ -155,7 +156,7 @@ cp -r "${test_dir}/src" "$actual"
   info "├─ archiving results"
 
   # archive the test
-  tar -czv actual/{sorbet,err.log,out.log} > ${repo_root}/actual.tar.gz
+  tar -cz actual/{sorbet,err.log,out.log} > ${repo_root}/actual.tar.gz
 )
 
 success "└─ done"

@@ -26,14 +26,13 @@ def snapshot_test(test_path):
     actual_name = "actual_{}".format(test_path)
     test_name = "test_{}".format(test_path)
 
-    # TODO: Why can't this find the runfiles?
     native.genrule(
         name = actual_name,
+        message = "Running {}".format(test_path),
         tools = [
             ":run_one_bazel",
         ],
         srcs = [
-            "@bazel_tools//tools/bash/runfiles",
             "//main:sorbet",
             "//gems/sorbet:sorbet",
 
@@ -61,8 +60,12 @@ def snapshot_test(test_path):
             ],
         ),
         outs = [actual],
+
+        # NOTE: this redirects stdout/stderr to a log, and only outputs on
+        # failure.
         cmd = """
-        $(location :run_one_bazel) ruby_2_4_3 """ + test_path + """
+        $(location :run_one_bazel) ruby_2_4_3 """ + test_path + """ &> genrule.log \
+                || (cat genrule.log && exit 1)
         cp actual.tar.gz $(location """ + actual + """)
         """,
     )
@@ -81,7 +84,7 @@ def snapshot_test(test_path):
             ":logging",
         ],
         args = [
-            "ruby_2_4_3",
+            "$(location {})".format(actual),
             test_path,
         ],
     )
