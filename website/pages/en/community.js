@@ -157,6 +157,11 @@ class Index extends React.Component {
                   link: 'https://github.com/Shopify/rubocop-sorbet',
                   description: 'A collection of Rubocop rules for Sorbet.',
                 },
+                {
+                  title: 'yard-sorbet',
+                  link: 'https://github.com/dduugg/yard-sorbet',
+                  description: 'A YARD plugin that incorporates Sorbet type information',
+                },
               ]}
             />
             <p>
