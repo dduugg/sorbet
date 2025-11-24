@@ -1,0 +1,134 @@
+Begin {
+  stmts = [
+    Block {
+      send = Send {
+        receiver = NULL
+        method = <U tap>
+        args = [
+        ]
+      }
+      params = NumParams {
+        decls = [
+          LVar {
+            name = <U _1>
+          }
+        ]
+      }
+      body = Block {
+        send = Send {
+          receiver = LVar {
+            name = <U _1>
+          }
+          method = <U tap>
+          args = [
+          ]
+        }
+        params = Params {
+          params = [
+            Param {
+              name = <U x>
+            }
+          ]
+        }
+        body = LVar {
+          name = <U x>
+        }
+      }
+    }
+    Block {
+      send = Send {
+        receiver = NULL
+        method = <U tap>
+        args = [
+        ]
+      }
+      params = Params {
+        params = [
+          Param {
+            name = <U x>
+          }
+        ]
+      }
+      body = Block {
+        send = Send {
+          receiver = LVar {
+            name = <U x>
+          }
+          method = <U tap>
+          args = [
+          ]
+        }
+        params = NumParams {
+          decls = [
+            LVar {
+              name = <U _1>
+            }
+          ]
+        }
+        body = LVar {
+          name = <U _1>
+        }
+      }
+    }
+    Block {
+      send = Send {
+        receiver = Array {
+          elts = [
+            Array {
+              elts = [
+                Integer {
+                  val = "1"
+                }
+                Integer {
+                  val = "2"
+                }
+              ]
+            }
+            Array {
+              elts = [
+                Integer {
+                  val = "3"
+                }
+                Integer {
+                  val = "4"
+                }
+              ]
+            }
+          ]
+        }
+        method = <U map>
+        args = [
+        ]
+      }
+      params = NumParams {
+        decls = [
+          LVar {
+            name = <U _1>
+          }
+        ]
+      }
+      body = Block {
+        send = Send {
+          receiver = LVar {
+            name = <U _1>
+          }
+          method = <U map>
+          args = [
+          ]
+        }
+        params = NULL
+        body = Send {
+          receiver = LVar {
+            name = <U _1>
+          }
+          method = <U *>
+          args = [
+            Integer {
+              val = "2"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

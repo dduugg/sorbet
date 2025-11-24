@@ -1,0 +1,150 @@
+ClassDef{
+  kind = class
+  name = EmptyTree
+  symbol = <C <U <root>>>
+  ancestors = [ConstantLit{
+      symbol = (class ::<todo sym>)
+      orig = nullptr
+    }]
+  rhs = [
+    Send{
+      flags = {privateOk}
+      recv = Self
+      fun = <U tap>
+      block = Block {
+        params = [
+          UnresolvedIdent{
+            kind = Local
+            name = <U _1>
+          }
+        ]
+        body = Send{
+          flags = {}
+          recv = UnresolvedIdent{
+            kind = Local
+            name = <U _1>
+          }
+          fun = <U tap>
+          block = Block {
+            params = [
+              UnresolvedIdent{
+                kind = Local
+                name = <U x>
+              }
+            ]
+            body = UnresolvedIdent{
+              kind = Local
+              name = <U x>
+            }
+          }
+          pos_args = 0
+          args = [
+          ]
+        }
+      }
+      pos_args = 0
+      args = [
+      ]
+    }
+
+    Send{
+      flags = {privateOk}
+      recv = Self
+      fun = <U tap>
+      block = Block {
+        params = [
+          UnresolvedIdent{
+            kind = Local
+            name = <U x>
+          }
+        ]
+        body = Send{
+          flags = {}
+          recv = UnresolvedIdent{
+            kind = Local
+            name = <U x>
+          }
+          fun = <U tap>
+          block = Block {
+            params = [
+              UnresolvedIdent{
+                kind = Local
+                name = <U _1>
+              }
+            ]
+            body = UnresolvedIdent{
+              kind = Local
+              name = <U _1>
+            }
+          }
+          pos_args = 0
+          args = [
+          ]
+        }
+      }
+      pos_args = 0
+      args = [
+      ]
+    }
+
+    Send{
+      flags = {}
+      recv = Array{
+        elems = [
+          Array{
+            elems = [
+              Literal{ value = 1 }
+              Literal{ value = 2 }
+            ]
+          }
+          Array{
+            elems = [
+              Literal{ value = 3 }
+              Literal{ value = 4 }
+            ]
+          }
+        ]
+      }
+      fun = <U map>
+      block = Block {
+        params = [
+          UnresolvedIdent{
+            kind = Local
+            name = <U _1>
+          }
+        ]
+        body = Send{
+          flags = {}
+          recv = UnresolvedIdent{
+            kind = Local
+            name = <U _1>
+          }
+          fun = <U map>
+          block = Block {
+            params = [
+            ]
+            body = Send{
+              flags = {}
+              recv = UnresolvedIdent{
+                kind = Local
+                name = <U _1>
+              }
+              fun = <U *>
+              block = nullptr
+              pos_args = 1
+              args = [
+                Literal{ value = 2 }
+              ]
+            }
+          }
+          pos_args = 0
+          args = [
+          ]
+        }
+      }
+      pos_args = 0
+      args = [
+      ]
+    }
+  ]
+}

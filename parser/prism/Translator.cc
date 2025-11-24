@@ -4297,6 +4297,16 @@ Translator::findNumberedParamsUsageLocs(core::LocOffsets loc, pm_statements_node
                 return false;
             }
         }
+        // Don't descend into nested blocks/lambdas - they have their own parameter scope
+        // Even if they use explicit parameters, the numbered parameters belong to THIS block's scope only
+        if (PM_NODE_TYPE_P(node, PM_BLOCK_NODE)) {
+            // Don't descend into nested blocks
+            return false;
+        }
+        if (PM_NODE_TYPE_P(node, PM_LAMBDA_NODE)) {
+            // Don't descend into nested lambdas
+            return false;
+        }
         return true;
     });
 
