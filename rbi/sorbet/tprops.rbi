@@ -185,6 +185,7 @@ module T::Props::Serializable::ClassMethods
   def from_hash!(hash); end
   sig { params(hash: T::Hash[String, T.untyped], strict: T::Boolean).returns(T.attached_class) }
   def from_hash(hash, strict = false); end
+  def prop_by_serialized_forms; end
 end
 
 module T::Props::TypeValidation
