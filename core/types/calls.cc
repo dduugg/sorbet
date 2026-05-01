@@ -1708,7 +1708,14 @@ TypePtr getMethodParametersAsTuple(const GlobalState &gs, ClassOrModuleRef klass
         if (param.flags.isRepeated) {
             ENFORCE(params.empty(), "getCallArguments with positional and repeated args is not supported: {}",
                     method.toString(gs));
-            return Types::arrayOf(gs, Types::resultTypeAsSeenFrom(gs, param.type, data->owner, klass, targs));
+            if (param.flags.isKeyword) {
+                // **kwargs splat: getCallArguments doesn't model kwargs, treat as untyped proc args.
+                return nullptr;
+            }
+            auto elemType = param.type == nullptr
+                                ? core::Types::untyped(method)
+                                : Types::resultTypeAsSeenFrom(gs, param.type, data->owner, klass, targs);
+            return Types::arrayOf(gs, elemType);
         }
         ENFORCE(!param.flags.isKeyword, "getCallArguments does not support kwargs: {}", method.toString(gs));
         if (param.flags.isBlock) {
