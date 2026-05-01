@@ -1,0 +1,4 @@
+--- test2.rb alone ---
+No errors! Great job.
+--- test.rb + test2.rb ---
+No errors! Great job.

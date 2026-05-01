@@ -5,7 +5,7 @@
 # the Minitest rewriter, and getMethodParametersAsTuple produced AppliedType(Array,[nullptr])
 # for the kwrestarg when param.type==nullptr, which propagated to a null dereference.
 
-RSpec.describe "something" do
+describe "something" do
   describe "inner" do
     def call(**opts)
       opts[:key]
