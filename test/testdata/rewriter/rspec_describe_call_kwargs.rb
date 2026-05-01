@@ -1,12 +1,22 @@
-# typed: false
+# typed: true
+# enable-experimental-rspec: true
 
-# Regression test: defining `def call(**kwargs)` inside an RSpec describe block
-# used to cause a segfault. The method ends up on a synthesized ClassDef from
-# the Minitest rewriter, and getMethodParametersAsTuple produced AppliedType(Array,[nullptr])
-# for the kwrestarg when param.type==nullptr, which propagated to a null dereference.
+module RSpec
+  module Core
+    class ExampleGroup
+    end
+  end
+end
 
-describe "something" do
-  describe "inner" do
+# Regression: the Minitest rewriter must handle `def call(**kwargs)` inside a
+# nested RSpec describe block without crashing. With --enable-experimental-rspec,
+# the outer RSpec.describe is rewritten to a ClassDef and def call(**opts) lands
+# on the synthesized inner class (not Object), so the inference-level null-ptr
+# crash is not triggered here. That crash — where Object#call(**opts) causes
+# NilClass.getCallArguments to produce AppliedType(Array,[nullptr]) — is covered
+# by test/cli/rspec_call_kwargs_crash/.
+RSpec.describe "something" do
+  describe ".method" do
     def call(**opts)
       opts[:key]
     end
